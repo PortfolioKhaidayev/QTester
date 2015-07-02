@@ -15,7 +15,8 @@ namespace ReplyCodes {
         OK = 200,
         InvalidRequest = 400,
         AuthentificationFailed = 401,
-        LostRequiredParameter = 402
+        LostRequiredParameter = 402,
+        ServerError = 500
     };
 }
 

@@ -25,7 +25,10 @@ HEADERS += \
     tester/profession.h \
     tester/answer.h \
     network/networkmanager.h \
-    network/tcpserver.h
+    network/tcpserver.h \
+    data_manager/datamanager.h \
+    data_manager/databasedatamanager.h \
+    data_manager/fakedatamanager.h
 
 SOURCES += \
     main.cpp \
@@ -49,4 +52,7 @@ SOURCES += \
     tester/answer.cpp \
     tester/theme.cpp \
     network/networkmanager.cpp \
-    network/tcpserver.cpp
+    network/tcpserver.cpp \
+    data_manager/datamanager.cpp \
+    data_manager/databasedatamanager.cpp \
+    data_manager/fakedatamanager.cpp

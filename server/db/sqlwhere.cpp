@@ -2,12 +2,12 @@
 
 SqlWhere::SqlWhere(const QString &where)
 {
-	if( isValid(where) ){
-		if (where.contains("WHERE", Qt::CaseInsensitive)){
-			QString w(where);
-			_where += w.remove("WHERE", Qt::CaseInsensitive);
-		}
-		else _where += where;
+    if( isValid(where) ){
+        if (where.contains("WHERE", Qt::CaseInsensitive)){
+            QString w(where);
+            _where += w.remove("WHERE", Qt::CaseInsensitive);
+        }
+        else _where += where;
     }
 }
 
@@ -15,7 +15,7 @@ bool SqlWhere::isValid(const QString &sql) const
 {
     /// \todo Complete later
     /// \warning incomplete !!!
-	return true;//sql.isEmpty() == false;
+    return ( ! sql.isEmpty() );
 }
 
 bool SqlWhere::AND(const QString &where)

@@ -6,7 +6,7 @@ QJsonObject JsonFormat::professionToJsonObj( const Profession &prof )
     QJsonArray jLessons;
     for( auto i = 0; i < prof.getLessons().count(); i++ )
     {
-        jLessons.append( lessonToJsonObj( prof.getLessons().at( i ) ) );
+        jLessons.append( lessonToJsonObject( prof.getLessons().at( i ) ) );
     }
 
     QJsonObject jProfession{
@@ -18,12 +18,14 @@ QJsonObject JsonFormat::professionToJsonObj( const Profession &prof )
     return jProfession;
 }
 
-QJsonObject JsonFormat::lessonToJsonObj( const Lesson &lesson )
+QJsonObject JsonFormat::lessonToJsonObject( const Lesson &lesson )
 {
     QJsonArray jThemes;
-    for( auto i = 0; i < lesson.getThemes().count(); i++ )
+    QVector<Theme> themes = lesson.getThemes();
+
+    for( auto it = themes.begin(); it != themes.end(); ++it )
     {
-        jThemes.append( themeToJsonObj( lesson.getThemes().at( i ) )["respons"].toObject() );
+        jThemes.push_back( themeToJsonObject( *it ) );
     }
 
     QJsonObject jLesson{
@@ -35,12 +37,14 @@ QJsonObject JsonFormat::lessonToJsonObj( const Lesson &lesson )
     return jLesson;
 }
 
-QJsonObject JsonFormat::themeToJsonObj( const Theme &theme )
+QJsonObject JsonFormat::themeToJsonObject( const Theme &theme )
 {
     QJsonArray jQuestions;
-    for( auto i = 0; i < theme.getQuestions().count(); i++ )
-    {
-        jQuestions.append( questionToJsonObj( theme.getQuestions().at( i ) ) );
+
+    QVector<Question> questions = theme.getQuestions();
+
+    for( auto it = questions.begin(); it != questions.end(); ++it ) {
+        jQuestions.push_back( questionToJsonObject( *it ) );
     }
 
     QJsonObject response{
@@ -48,25 +52,23 @@ QJsonObject JsonFormat::themeToJsonObj( const Theme &theme )
         { "title", theme.getTitle() },
         { "questions", jQuestions }
     };
-    QJsonObject jTheme{
-      {"code", Codes::Questions},
-      {"response", response}
-    };
 
-    return jTheme;
+    return response;
 }
 
-QJsonObject JsonFormat::questionToJsonObj( const Question &question )
+QJsonObject JsonFormat::questionToJsonObject( const Question &question )
 {
     QJsonArray jAnswers;
-    for( auto i = 0; i < question.getAnswers().count(); i++ )
+    QVector<Answer> answers = question.getAnswers();
+
+    for( auto it = answers.begin(); it != answers.end(); ++it )
     {
-        jAnswers.append( answerToJsonObj( question.getAnswers().at( i ) ) );
+        jAnswers.push_back( answerToJsonObject( *it ) );
     }
 
     QJsonObject jQuestion{
         { "id", question.getId() },
-        { "text", question.getText() }, 
+        { "text", question.getText() },
         { "type", question.getType() },
         { "answers", jAnswers }
     };
@@ -74,7 +76,7 @@ QJsonObject JsonFormat::questionToJsonObj( const Question &question )
     return jQuestion;
 }
 
-QJsonObject JsonFormat::answerToJsonObj( const Answer &answer )
+QJsonObject JsonFormat::answerToJsonObject( const Answer &answer )
 {
     QJsonObject jAnswer{
         { "id", answer.getId() },
@@ -104,7 +106,7 @@ QJsonObject JsonFormat::themesListToJsonObj( const IdTitleMap &list )
 
 QJsonObject JsonFormat::idTitleMapToJsonObj( const IdTitleMap &list, int code, const QString &listName )
 {
-    QJsonArray jArray 
+    QJsonArray jArray
         = mapListTojArray( list );
     QJsonObject response{
         { listName, jArray }
@@ -127,7 +129,7 @@ QJsonArray JsonFormat::mapListTojArray( const IdTitleMap &map )
     for( auto it = map.begin(); it != map.end(); ++it )
     {
 //        qDebug() << "[JsonFormat::mapListTojArray] #" << j << " key:" << it.key() << " value:" << it.value();
-        jArray.append( 
+        jArray.append(
             mapListItemtojObject( it.key(), it.value() ) );
 //        i.next();
         j++;

@@ -7,10 +7,8 @@
 
 #include "../common/ParametrParser/parametrparser.h"
 
-#include <QCryptographicHash>
-
 struct CommandLineArgs{
-    QString port;
+    QString port = "3434";
 };
 CommandLineArgs parseCommandLineArgs( int argc, char* argv[] ){
     CommandLineArgs args;
@@ -39,8 +37,6 @@ namespace ReturnCodes {
 
 int main( int argc, char *argv[] )
 {
-//    qDebug() << QCryptographicHash::hash( "QTester", QCryptographicHash::Md5 ).toHex();
-
     setlocale( LC_ALL, "Russian" );
     QCoreApplication a( argc, argv );
     CommandLineArgs args = parseCommandLineArgs(argc, argv);
@@ -63,15 +59,3 @@ int main( int argc, char *argv[] )
 
     return a.exec();
 }
-
-
-/////////////////////////
-/*
- TODO:
-* SocketConnectionManager
-* UserControl
-* AccessManager
-* iApiManager
-* Api_1_0
-
-*/

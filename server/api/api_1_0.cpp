@@ -25,6 +25,24 @@ QJsonObject Api_1_0::invalidRequest(int &code) const
     return QJsonObject();
 }
 
+QJsonObject Api_1_0::lostRequiredParameter(int &code) const
+{
+    code = ReplyCodes::LostRequiredParameter;
+    return QJsonObject();
+}
+
+QJsonObject Api_1_0::authentificationFailed(int &code) const
+{
+    code = ReplyCodes::AuthentificationFailed;
+    return QJsonObject();
+}
+
+QJsonObject Api_1_0::serverError(int &code) const
+{
+    code = ReplyCodes::ServerError;
+    return QJsonObject();
+}
+
 QJsonObject Api_1_0::authorisation(const QUrlQuery &query, const SQLMgr &db, int &code) const
 {
     /// /auth?login=11po1_1&password=123456&api_version=1.0
@@ -32,15 +50,13 @@ QJsonObject Api_1_0::authorisation(const QUrlQuery &query, const SQLMgr &db, int
     QString password = query.queryItemValue( ApiRequests::Params::PASSWORD );
 
     if ( login.isEmpty() ){
-        code = ReplyCodes::LostRequiredParameter;
-        return QJsonObject();
+        return lostRequiredParameter( code );
     }
     if ( ! db.auth( login, password ) ){
-        code = ReplyCodes::AuthentificationFailed;
-        return QJsonObject();
+        return authentificationFailed( code );
     }
 
-    code = ReplyCodes::OK;
+
 
     User user(login, password, db, API_VERSION);
 
@@ -48,6 +64,7 @@ QJsonObject Api_1_0::authorisation(const QUrlQuery &query, const SQLMgr &db, int
     QString token = userControl.pushUser( user );
 
 
+    code = ReplyCodes::OK;
     QJsonObject response{
         { ResponseParams::TOKEN          , token },
         { ResponseParams::FULL_USER_NAME , user.getFullName() },
@@ -60,12 +77,13 @@ QJsonObject Api_1_0::authorisation(const QUrlQuery &query, const SQLMgr &db, int
 QJsonObject Api_1_0::getProfessionsList(const QUrlQuery &/*query*/, const SQLMgr &db, int &code) const
 {
     /// /get_professions_list
-    code = ReplyCodes::OK;
+
 
     IdTitleMap list = Profession::getProfList( db );
 
     QJsonArray jsonList = makeArrayFromIdTitleMap( list );
 
+    code = ReplyCodes::OK;
     return QJsonObject{
         {ResponseParams::PROFESSIONS_LIST, jsonList}
     };
@@ -74,15 +92,16 @@ QJsonObject Api_1_0::getProfessionsList(const QUrlQuery &/*query*/, const SQLMgr
 QJsonObject Api_1_0::getLessonsList(const QUrlQuery &query, const SQLMgr &db, int &code) const
 {
     /// /get_lessons_list?profession_id=0
-    code = ReplyCodes::OK;
     QString profession_id = query.queryItemValue( ApiRequests::Params::PROFESSION_ID );
     if( profession_id.isEmpty() ){
-        code = ReplyCodes::LostRequiredParameter;
-        return QJsonObject();
+        return lostRequiredParameter( code );
     }
+
 
     IdTitleMap list = Lesson::getLessonsList( db, profession_id );
     QJsonArray jsonArray = makeArrayFromIdTitleMap( list );
+
+    code = ReplyCodes::OK;
     return QJsonObject{
         {ResponseParams::LESSONS_LIST, jsonArray}
     };
@@ -91,18 +110,60 @@ QJsonObject Api_1_0::getLessonsList(const QUrlQuery &query, const SQLMgr &db, in
 QJsonObject Api_1_0::getThemesList(const QUrlQuery &query, const SQLMgr &db, int &code) const
 {
     /// /get_themes_list?lesson_id=0
-    code = ReplyCodes::OK;
     QString lesson_id = query.queryItemValue( ApiRequests::Params::LESSON_ID );
 
     if( lesson_id.isEmpty() ){
-        code = ReplyCodes::LostRequiredParameter;
-        return QJsonObject();
+        return lostRequiredParameter( code );
     }
+
 
     IdTitleMap list = Theme::getThemeList( db, lesson_id );
     QJsonArray jsonArray = makeArrayFromIdTitleMap( list );
+
+    code = ReplyCodes::OK;
     return QJsonObject{
         {ResponseParams::THEMES_LIST, jsonArray}
+    };
+}
+
+QJsonObject Api_1_0::getTheme(const QUrlQuery &query, const SQLMgr &db, int &code) const
+{
+    /// /get_theme?theme_id=0&questions_count=0&answers_count=0
+
+
+    if(    ! query.hasQueryItem( ApiRequests::Params::THEME_ID )
+        || ! query.hasQueryItem( ApiRequests::Params::QUESTIONS_COUNT ) ){
+        return lostRequiredParameter( code );
+    }
+
+    qint64 questionsCount = 10;
+    int    answersCount   = 4;
+
+    {
+        bool ok = false;
+        qint64 _questionsCount = query.queryItemValue( ApiRequests::Params::QUESTIONS_COUNT ).toLongLong( & ok );
+
+        if( ok ){
+            questionsCount = _questionsCount;
+        }
+
+        if( query.hasQueryItem( ApiRequests::Params::ANSWERS_COUNT ) ){
+            int _answersCount = query.queryItemValue( ApiRequests::Params::ANSWERS_COUNT ).toInt( & ok );
+            if( ok ){
+                answersCount  = _answersCount;
+            }
+        }
+    }
+
+    Theme theme;
+    theme.setId( query.queryItemValue( ApiRequests::Params::THEME_ID ) );
+    if( ! theme.selectFromDatabase( db, questionsCount, answersCount ) ){
+        return serverError( code );
+    }
+
+    code = ReplyCodes::OK;
+    return QJsonObject{
+        { ResponseParams::THEME, JsonFormat::themeToJsonObject( theme ) }
     };
 }
 
@@ -122,6 +183,9 @@ QJsonObject Api_1_0::responseRequest(const QUrl &url, const SQLMgr &db, int &cod
 
     if( request == ApiRequests::GET_THEMES_LIST )
         return getThemesList(query, db, code);
+
+    if( request == ApiRequests::GET_THEME )
+        return getTheme(query, db, code);
 
     return invalidRequest(code);
 }
