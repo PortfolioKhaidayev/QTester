@@ -17,9 +17,11 @@ typedef QMap<QString, QString> IdTitleMap;
 class DataManager
 {
 private:
-    DataManager();
+
 
 public:
+    DataManager();
+
     virtual bool authentification(const QString &login, const QString &password) = 0;
     virtual User getUser( const QString &login, const QString &password) = 0;
     virtual User getUser( const QString &id) = 0;
@@ -32,11 +34,11 @@ public:
     virtual IdTitleMap getQuestionsList(  const QString &theme_id     , const qint64 limit = 0) = 0;
     virtual IdTitleMap getAnswersList(    const QString &question_id  , const qint64 limit = 0) = 0;
 
-    virtual Profession getProfession( const QString &lesson_id )   = 0;
-    virtual Lesson     getLesson(     const QString &lesson_id )   = 0;
-    virtual Theme      getTheme(      const QString &theme_id )    = 0;
-    virtual Question   getQuestion(   const QString &question_id ) = 0;
-    virtual Answer     getAnswer(     const QString &answer_id )   = 0;
+    virtual Profession getProfession( const QString &profession_id ) = 0;
+    virtual Lesson     getLesson(     const QString &lesson_id )     = 0;
+    virtual Theme      getTheme(      const QString &theme_id )      = 0;
+    virtual Question   getQuestion(   const QString &question_id )   = 0;
+    virtual Answer     getAnswer(     const QString &answer_id )     = 0;
 
     // Set requests :
 

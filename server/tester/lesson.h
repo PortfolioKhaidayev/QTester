@@ -19,50 +19,50 @@ private:
     QVector<QString> _themesIds;
 
 
-    Theme selectTheme( const QString &themeId, 
-                       const SQLMgr &sqlManager, 
+    Theme selectTheme( const QString &themeId,
+                       const SQLMgr &sqlManager,
                        const qint64 questionsCount,
                        const int answersCount )const;
 
 public:
-    Lesson(){};
+    Lesson(){}
     Lesson(const QString &name);
 
     QString getId()const;
     QString getName()const;
     QString getTitle() const;
     QLocale::Language getLang() const;
-    QVector<Theme> getThemes() const;                
+    QVector<Theme> getThemes() const;
 
-    void setId( QString &id );
-    void setName( QString &name );
-	void setTitle(const QString &title);
-	void setLang(const QLocale::Language &lang);
-    void pushTheme(const Theme &theme);
+    void setId( const QString &id );
+    void setName( const QString &name );
+    void setTitle( const QString &title );
+    void setLang( const QLocale::Language &lang );
+    void pushTheme( const Theme &theme );
 
-	void selectThemesFromDataBase(const SQLMgr &sqlManager, 
-		                          const QStringList &themeIds,
+    void selectThemesFromDataBase(const SQLMgr &sqlManager,
+                                  const QStringList &themeIds,
                                   const qint64 questionsCount,
                                   const int answersCount);
     static IdTitleMap getLessonsList( const SQLMgr &sqlManager, const QString &profId );
-    void print()const; 
+    void print()const;
 };
 
 namespace Tables
 {
-	namespace Lesson
-	{
-		const QString TABLE_NAME = "Lessons";
+    namespace Lesson
+    {
+        const QString TABLE_NAME = "Lessons";
 
-		namespace Fields
-		{
-			const QString LESSON_ID = "lesson_id";
-			const QString NAME = "name";
-			const QString TITLE = "title";
-			const QString LANGUAGE = "localization";
-			const QString COURSE = "course";
-			const QString PROFESTION_ID = "profession_id";
-		}
-	}
+        namespace Fields
+        {
+            const QString LESSON_ID = "lesson_id";
+            const QString NAME = "name";
+            const QString TITLE = "title";
+            const QString LANGUAGE = "localization";
+            const QString COURSE = "course";
+            const QString PROFESTION_ID = "profession_id";
+        }
+    }
 }
 #endif

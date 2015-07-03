@@ -16,7 +16,6 @@ private:
     QString _name;
     QString _title;
     int 	_difficulty = 0;
-    QString _lessonId;
     QVector <Question> _questions;
 
     Question selectQuestion( const QSqlQuery &query ) const;
@@ -25,23 +24,19 @@ private:
                                    const int      answersCount,
                                    const QString &questionId ) const;
 public:
-    Theme()
-    {
-    };
+    Theme(){}
     Theme( const QString &Name );
 
     QString getId()const;
     QString getName()const;
     QString getTitle()const;
     int getDifficulty()const;
-    QString getLessonId()const;
     QVector <Question> getQuestions() const;
 
     void setId( const QString &id );
     void setName( const QString &name );
     void setTitle( const QString &title );
     void setDifficulty( const int &difficulty );
-    void setLessonId( const QString &lessonId );
     void pushQuestion( const Question &question );
     void pushQuestion( const QString &text,
                        const QString &type );

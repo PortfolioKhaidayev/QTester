@@ -3,7 +3,7 @@
 
 #include "datamanager.h"
 
-class DatabaseDataManager : DataManager
+class DatabaseDataManager : public DataManager
 {
 public:
     DatabaseDataManager();

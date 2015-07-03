@@ -25,8 +25,10 @@ public:
     QString getFullName() const;
     QString getGroup() const;
 
-    void setName( const QString &name );
+    void setLogin( const QString &name );
     void setApiVersion( const QString &version );
+    void setFullName( const QString &fullName );
+    void setGroup( const QString &group );
 };
 
 namespace Tables

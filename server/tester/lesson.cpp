@@ -1,8 +1,8 @@
-#include "lesson.h"	  
+#include "lesson.h"
 
 Lesson::Lesson(const QString &name)
 {
-	_name = name;
+    _name = name;
 }
 
 QString Lesson::getId()const
@@ -15,39 +15,39 @@ QString Lesson::getName()const
 }
 QString Lesson::getTitle() const
 {
-	return _title;
+    return _title;
 }
 QLocale::Language Lesson::getLang() const
 {
-	return _lang;
+    return _lang;
 }
 QVector<Theme> Lesson::getThemes() const
 {
-	return _themes;
+    return _themes;
 }
 
-void Lesson::setId( QString &id )
+void Lesson::setId( const QString &id )
 {
     _id = id;
 }
-void Lesson::setName( QString &name )
+void Lesson::setName( const QString &name )
 {
     _name = name;
 }
 void Lesson::setTitle(const QString &title)
 {
-	_title = title;
+    _title = title;
 }
 void Lesson::setLang(const QLocale::Language &lang)
 {
-	_lang = lang;
+    _lang = lang;
 }
 void Lesson::pushTheme(const Theme &theme)
 {
-	_themes.push_back(theme);
+    _themes.push_back(theme);
 }
 
-void Lesson::selectThemesFromDataBase( const SQLMgr &sqlManager, 
+void Lesson::selectThemesFromDataBase( const SQLMgr &sqlManager,
                                       const QStringList &themeIds,
                                       const qint64 questionsCount,
                                       const int answersCount )
@@ -56,41 +56,40 @@ void Lesson::selectThemesFromDataBase( const SQLMgr &sqlManager,
     {
         Theme topic = selectTheme( themeIds.at( i ), sqlManager, questionsCount, answersCount );
         pushTheme( topic );
-    }         
+    }
 }
 
 Theme Lesson::selectTheme( const QString &themeId,
-                           const SQLMgr &sqlManager, 
+                           const SQLMgr &sqlManager,
                            const qint64 questionsCount,
                            const int answersCount )const
 {
     using namespace Tables::Theme;
     SqlWhere _where( Fields::THEME_ID + ((themeId == Fields::THEME_ID) ? ("= " + themeId) : (" = '" + themeId + "'")) );
-    QStringList _fields( { Fields::LESSON_ID, 
-                           Fields::NAME, 
-                           Fields::TITLE, 
+    QStringList _fields( { Fields::LESSON_ID,
+                           Fields::NAME,
+                           Fields::TITLE,
                            Fields::DIFFICULTY } );
 
     QSqlQuery query = sqlManager.select( TABLE_NAME, _fields, _where );
 
     query.first();
 
-    Theme topic( query.value( query.record().indexOf( Tables::Theme::Fields::NAME ) ).toString() );
-        
-    topic.setTitle( query.value( query.record().indexOf( Tables::Theme::Fields::TITLE ) ).toString() );
-    topic.setDifficulty( query.value( query.record().indexOf( Fields::DIFFICULTY ) ).toInt() );
-    topic.setId( themeId );
-    topic.setLessonId( _id );
+    Theme theme( query.value( query.record().indexOf( Tables::Theme::Fields::NAME ) ).toString() );
 
-    topic.selectFromDatabase( sqlManager, questionsCount, answersCount );
+    theme.setTitle( query.value( query.record().indexOf( Tables::Theme::Fields::TITLE ) ).toString() );
+    theme.setDifficulty( query.value( query.record().indexOf( Fields::DIFFICULTY ) ).toInt() );
+    theme.setId( themeId );
 
-    return topic;
+    theme.selectFromDatabase( sqlManager, questionsCount, answersCount );
+
+    return theme;
 }
 
 IdTitleMap Lesson::getLessonsList( const SQLMgr &sqlManager, const QString &profId )
 {
     using namespace Tables::Lesson;
-    
+
     QStringList _fields( { Fields::LESSON_ID, Fields::TITLE } );
     SqlWhere _where( Fields::PROFESTION_ID + ((profId == Fields::PROFESTION_ID) ?( "= " + profId) : ("= '" + profId + "'")) );
     IdTitleMap lessList;
@@ -108,7 +107,7 @@ IdTitleMap Lesson::getLessonsList( const SQLMgr &sqlManager, const QString &prof
     return lessList;
 }
 
-void Lesson::print()const      
+void Lesson::print()const
 {
     qDebug() << "Lesson(Title: " << _title << ")";
 

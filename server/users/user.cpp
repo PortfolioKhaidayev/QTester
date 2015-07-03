@@ -42,7 +42,7 @@ QString User::getGroup() const
     return _group;
 }
 
-void User::setName( const QString &name )
+void User::setLogin( const QString &name )
 {
     _login = name;
 }
@@ -50,4 +50,14 @@ void User::setName( const QString &name )
 void User::setApiVersion( const QString &version )
 {
     _apiVersion = version;
+}
+
+void User::setFullName(const QString &fullName)
+{
+    _fullName = fullName;
+}
+
+void User::setGroup(const QString &group)
+{
+    _group = group;
 }
