@@ -10,11 +10,9 @@ void NetworkManager::connectSlots()
              this,    SLOT  ( newClient( QTcpSocket* )   ) );
 }
 
-NetworkManager::NetworkManager(SQLMgr &sqlMgr, const int port)
+NetworkManager::NetworkManager( const int port )
     : QObject(0)
 {
-    _sqlMgr = &sqlMgr;
-
     _server = new TcpServer( port );
 
     connectSlots();
@@ -37,7 +35,7 @@ void NetworkManager::inputQuery(QString request, QTcpSocket* client )
     qDebug() << "[NetworkManager::inputQuery]\n  "
              << "Request: " << request;
 
-    QString outputData = RequestsManager::request( request, *_sqlMgr ).toJson();
+    QString outputData = RequestsManager::request( request ).toJson();
 
     qDebug() << outputData;
 

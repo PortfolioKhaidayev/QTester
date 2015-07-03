@@ -29,9 +29,10 @@ public:
 private slots:
     virtual void slotNewConnection();
             void slotReadClient();
+            void acceptError(QAbstractSocket::SocketError);
 
 public slots:
-            void sendToClient(QTcpSocket *client, const QString &str);
+     void sendToClient(QTcpSocket *client, const QString &str);
 
 public slots:
     bool listen(const int port);

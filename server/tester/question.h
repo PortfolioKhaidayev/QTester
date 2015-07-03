@@ -55,11 +55,11 @@ public:
 
 namespace Tables
 {
-	namespace Question
+	namespace Questions
 	{
 		const QString TABLE_NAME = "Questions";
 
-		namespace Field
+		namespace Fields
 		{
 			const QString QUESTION_ID = "question_id";
 			const QString RECOMENDED_TIME = "recomended_time";

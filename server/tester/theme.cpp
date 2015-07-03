@@ -94,7 +94,7 @@ bool Theme::selectFromDatabase( const SQLMgr &sqlManager, const qint64 questions
 
 QVector<Answer> Theme::selectAnswers( const SQLMgr &sqlManager, const int answersCount, const QString &questionId ) const
 {
-    using namespace Tables::Answers::Field;        // зачем? ес  //нужно
+    using namespace Tables::Answers::Fields;        // зачем? ес  //нужно
     QVector<Answer> replys;
     QStringList answerFields( { TEXT, VALID, } );
     QString tableName_answers = Tables::Answers::TABLE_NAME;
@@ -118,7 +118,7 @@ QVector<Answer> Theme::selectAnswers( const SQLMgr &sqlManager, const int answer
 
 Question Theme::selectQuestion( const QSqlQuery &query ) const
 { // reject into new method.  Question makeQuestion(const QSqlQueru &query)
-    using namespace Tables::Question::Field;
+    using namespace Tables::Questions::Fields;
     Question issue;
 
     QString id = query.value( query.record().indexOf( QUESTION_ID ) ).toString(),
@@ -140,7 +140,7 @@ Question Theme::selectQuestion( const QSqlQuery &query ) const
 
 IdTitleMap Theme::getThemeList( const SQLMgr &sqlManager, const QString &lessonId )
 {
-    using namespace Tables::Theme;
+    using namespace Tables::Themes;
     QStringList _fields( { Fields::THEME_ID, Fields::TITLE } );
     SqlWhere _where( Fields::LESSON_ID + ((lessonId == Fields::LESSON_ID) ? ("= " + lessonId) : ("= '" + lessonId + "'")) );
     IdTitleMap themeList;

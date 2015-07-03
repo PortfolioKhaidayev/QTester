@@ -4,7 +4,7 @@ namespace DefaultValues {
     const QString API_VERSION = "1.0";
 }
 
-QJsonDocument RequestsManager::request(const QUrl &url, const SQLMgr &db)
+QJsonDocument RequestsManager::request(const QUrl &url)
 {
     QString request = url.path();
     QUrlQuery query( url );
@@ -17,7 +17,7 @@ QJsonDocument RequestsManager::request(const QUrl &url, const SQLMgr &db)
 
     int code = 0;
 
-    QJsonObject response = api->responseRequest( url, db, code );
+    QJsonObject response = api->responseRequest( url, code );
 
     delete api;
 

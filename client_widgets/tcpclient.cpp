@@ -155,3 +155,8 @@ void TcpClient::slotConnected()
 {
     emit connectedSuccess();
 }
+
+void TcpClient::close()
+{
+    _socket.close();
+}

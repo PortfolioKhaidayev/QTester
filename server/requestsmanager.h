@@ -26,7 +26,7 @@ private:
     static QJsonDocument report(const int code, const QString &request, const QJsonObject &response);
 
 public:
-    static QJsonDocument request( const QUrl &url, const SQLMgr &db );
+    static QJsonDocument request(const QUrl &url);
 };
 
 

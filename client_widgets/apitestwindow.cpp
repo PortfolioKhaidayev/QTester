@@ -81,6 +81,8 @@ void ApiTestWindow::addTab()
 
     _tabsContent.push_back( content );
     ui->TabWidget->addTab( content, host->text() );
+
+//    _client->close();
 }
 
 void ApiTestWindow::on_PButton_Send_clicked()

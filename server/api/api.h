@@ -24,7 +24,7 @@ class Api
 {
 public:
     virtual ~Api(){}
-    virtual QJsonObject responseRequest(const QUrl &url, const SQLMgr &db, int &code) = 0;
+    virtual QJsonObject responseRequest(const QUrl &url, int &code) = 0;
 };
 
 #endif // API_H

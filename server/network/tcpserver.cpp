@@ -8,6 +8,9 @@ void TcpServer::connectSignals()
     connect( &_server, SIGNAL( newConnection() ),
              this,    SLOT(slotNewConnection())
             );
+    connect( &_server, SIGNAL( acceptError(QAbstractSocket::SocketError) ),
+             this,    SLOT( acceptError(QAbstractSocket::SocketError) )
+            );
 }
 
 /*! \~russian
@@ -113,6 +116,11 @@ void TcpServer::slotReadClient()
         emit dataRecieved( str );
         emit dataRecieved( str, client );
     }
+}
+
+void TcpServer::acceptError(QAbstractSocket::SocketError)
+{
+    qDebug() << "acceptError";
 }
 
 /*! \~russian

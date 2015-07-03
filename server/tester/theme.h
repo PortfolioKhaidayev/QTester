@@ -53,7 +53,7 @@ public:
 
 namespace Tables
 {
-    namespace Theme
+    namespace Themes
     {
         const QString TABLE_NAME = "Themes";
 

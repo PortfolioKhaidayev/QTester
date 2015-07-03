@@ -50,7 +50,7 @@ public:
 
 namespace Tables
 {
-    namespace Lesson
+    namespace Lessons
     {
         const QString TABLE_NAME = "Lessons";
 
@@ -61,7 +61,7 @@ namespace Tables
             const QString TITLE = "title";
             const QString LANGUAGE = "localization";
             const QString COURSE = "course";
-            const QString PROFESTION_ID = "profession_id";
+            const QString PROFESSION_ID = "profession_id";
         }
     }
 }

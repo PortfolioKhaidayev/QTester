@@ -30,7 +30,7 @@ namespace Tables
 	{
 		const QString TABLE_NAME = "Answers";
 
-		namespace Field
+		namespace Fields
 		{
 			const QString ANSWER_ID = "answer_id";
 			const QString TEXT = "text";

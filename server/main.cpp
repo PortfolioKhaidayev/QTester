@@ -45,9 +45,6 @@ int main( int argc, char *argv[] )
     a.setApplicationVersion("0.1.2 PreAlpha");
     a.setOrganizationName("Slavjan");
 
-    SQLMgr *db = SQLiteMgr::instance();
-
-
     bool toIntSuccess = false;
     int port = args.port.toInt( &toIntSuccess );
     if( ! toIntSuccess ){
@@ -55,7 +52,7 @@ int main( int argc, char *argv[] )
         return ReturnCodes::invalidPort;
     }
 
-    NetworkManager netMan( *db, port );
+    NetworkManager netMan( port );
 
     return a.exec();
 }

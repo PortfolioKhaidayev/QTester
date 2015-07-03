@@ -8,7 +8,7 @@ Profession::Profession( const QString &name )
 {
     _name = name;
 }
-  
+
 void Profession::setId( const QString &id )
 {
     _id = id;
@@ -54,9 +54,9 @@ void Profession::selectLessonsFromDatabase( const SQLMgr &sqlManager,
     {
         QString key = lessons_themes_ids.keys().at( i );
         less = selectLesson( key,
-                             sqlManager, 
+                             sqlManager,
                              lessons_themes_ids[key],
-                             questionsCount, 
+                             questionsCount,
                              answersCount );
         pushLesson( less );
     }
@@ -69,9 +69,9 @@ Lesson Profession::selectLesson( const QString &lessonId,
                                   const qint64 questionsCount,
                                   const int answersCount )const
 {
-    using namespace Tables::Lesson;
+    using namespace Tables::Lessons;
 
-    QStringList _fields( {Fields::NAME, Fields::TITLE, Fields::LANGUAGE, Fields::COURSE } );     
+    QStringList _fields( {Fields::NAME, Fields::TITLE, Fields::LANGUAGE, Fields::COURSE } );
     SqlWhere _where( Fields::LESSON_ID + " = '" + lessonId + "'" );
     QSqlQuery query = sqlManager.select( TABLE_NAME, _fields, _where );
     query.first();
@@ -83,7 +83,7 @@ Lesson Profession::selectLesson( const QString &lessonId,
     if( language == 0 )
     {
         language = QLocale::system().language();
-    }    
+    }
     less.setLang( language );
 
     less.selectThemesFromDataBase( sqlManager, themeIds, questionsCount, answersCount );
@@ -93,7 +93,7 @@ Lesson Profession::selectLesson( const QString &lessonId,
 
 IdTitleMap Profession::getProfList( const SQLMgr &sqlManager )
 {
-    using namespace Tables::Professtion;
+    using namespace Tables::Professtions;
     QStringList _fields( { Fields::PROFESSION_ID, Fields::TITLE } );
     IdTitleMap profList;
 
@@ -113,7 +113,7 @@ IdTitleMap Profession::getProfList( const SQLMgr &sqlManager )
     return profList;
 }
 
-void Profession::print()const
+void Profession::print() const
 {
     qDebug() << _title;
 

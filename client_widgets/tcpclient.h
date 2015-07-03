@@ -34,6 +34,7 @@ private slots:
 
 public slots:
     void sendToServer(const QString &data);
+    void close();
 
 signals:
     void dataRecieved(QString);

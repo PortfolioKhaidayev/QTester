@@ -48,7 +48,7 @@ public:
 
 namespace Tables
 {
-    namespace Professtion
+    namespace Professtions
     {
         const QString TABLE_NAME = "Professions";
 

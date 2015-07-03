@@ -4,11 +4,15 @@
 #include "api.h"
 
 #include "users/usercontrol.h"
-#include "tester/profession.h"
 #include "jsonformat.h"
+
+#include "data_manager/datamanager.h"
+#include "data_manager/fakedatamanager.h"
+#include "data_manager/databasedatamanager.h"
 
 namespace ApiRequests {
     const QString AUTHORISATION        = "/auth";
+    const QString LOGOUT               = "/logout";
     const QString GET_PROFESSIONS_LIST = "/get_professions_list";
     const QString GET_LESSONS_LIST     = "/get_lessons_list";
     const QString GET_THEMES_LIST      = "/get_themes_list";
@@ -17,6 +21,7 @@ namespace ApiRequests {
     namespace Params {
         const QString LOGIN    = "login";
         const QString PASSWORD = "password";
+        const QString TOKEN    = "token";
 
 
         const QString PROFESSION_ID = "profession_id";
@@ -45,21 +50,26 @@ namespace ResponseParams{
 
 class Api_1_0 : public Api
 {
+private:
+    DataManager *_data;
+
     QJsonObject invalidRequest(int &code) const;
     QJsonObject lostRequiredParameter(int &code) const;
     QJsonObject authentificationFailed(int &code) const;
     QJsonObject serverError(int &code) const;
 
-    QJsonObject authorisation(const QUrlQuery &query, const SQLMgr &db, int &code) const;
+    QJsonObject authorisation(const QUrlQuery &query, int &code) const;
+    QJsonObject logout(const QUrlQuery &query, int &code) const;
 
-    QJsonObject getProfessionsList(const QUrlQuery &query, const SQLMgr &db, int &code) const;
-    QJsonObject getLessonsList(const QUrlQuery &query, const SQLMgr &db, int &code) const;
-    QJsonObject getThemesList(const QUrlQuery &query, const SQLMgr &db, int &code) const;
-    QJsonObject getTheme( const QUrlQuery &query, const SQLMgr &db, int &code ) const;
+    QJsonObject getProfessionsList(const QUrlQuery &query, int &code) const;
+    QJsonObject getLessonsList(const QUrlQuery &query, int &code) const;
+    QJsonObject getThemesList(const QUrlQuery &query, int &code) const;
+    QJsonObject getTheme( const QUrlQuery &query, int &code ) const;
 
     ~Api_1_0(){}
 public:
-    QJsonObject responseRequest(const QUrl &url, const SQLMgr &db, int &code) override;
+    Api_1_0();
+    QJsonObject responseRequest(const QUrl &url, int &code) override;
 };
 
 #endif // API_1_0_H

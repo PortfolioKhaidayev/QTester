@@ -11,7 +11,6 @@ class NetworkManager :
     Q_OBJECT
 private:
     TcpServer *_server;
-    SQLMgr *_sqlMgr;
 
     void connectSlots();
 signals:
@@ -20,7 +19,7 @@ public slots:
     void newClient(QTcpSocket* client);
     void inputQuery( QString, QTcpSocket* );
 public:
-    NetworkManager(SQLMgr &sqlMgr, const int port );
+    NetworkManager( const int port );
     ~NetworkManager();
 };
 
