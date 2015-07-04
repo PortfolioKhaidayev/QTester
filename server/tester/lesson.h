@@ -14,15 +14,9 @@ private:
     QString _name;
     QString _title;
     QLocale::Language _lang;
-    int course;
+    int course = 1;
     QVector<Theme> _themes;
     QVector<QString> _themesIds;
-
-
-    Theme selectTheme( const QString &themeId,
-                       const SQLMgr &sqlManager,
-                       const qint64 questionsCount,
-                       const int answersCount )const;
 
 public:
     Lesson(){}
@@ -39,30 +33,6 @@ public:
     void setTitle( const QString &title );
     void setLang( const QLocale::Language &lang );
     void pushTheme( const Theme &theme );
-
-    void selectThemesFromDataBase(const SQLMgr &sqlManager,
-                                  const QStringList &themeIds,
-                                  const qint64 questionsCount,
-                                  const int answersCount);
-    static IdTitleMap getLessonsList( const SQLMgr &sqlManager, const QString &profId );
-    void print()const;
 };
 
-namespace Tables
-{
-    namespace Lessons
-    {
-        const QString TABLE_NAME = "Lessons";
-
-        namespace Fields
-        {
-            const QString LESSON_ID = "lesson_id";
-            const QString NAME = "name";
-            const QString TITLE = "title";
-            const QString LANGUAGE = "localization";
-            const QString COURSE = "course";
-            const QString PROFESSION_ID = "profession_id";
-        }
-    }
-}
 #endif

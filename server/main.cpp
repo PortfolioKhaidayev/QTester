@@ -1,10 +1,6 @@
 #include <QCoreApplication>
 
-#include "tester/profession.h"
-#include "jsonformat.h"
 #include "network/networkmanager.h"
-#include "db/sqlitemgr.h"
-
 #include "../common/ParametrParser/parametrparser.h"
 
 struct CommandLineArgs{

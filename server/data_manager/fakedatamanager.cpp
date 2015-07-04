@@ -9,7 +9,7 @@ bool FakeDataManager::authentification(const QString &login, const QString &pass
     return false;
 }
 
-User FakeDataManager::getUser(const QString &id)
+User FakeDataManager::getUser(const QString &)
 {
     User user;
     user.setApiVersion( "1.0" );
@@ -20,11 +20,11 @@ User FakeDataManager::getUser(const QString &id)
     return user;
 }
 
-User FakeDataManager::getUser(const QString &login, const QString &password)
+User FakeDataManager::getUser(const QString &login, const QString &)
 {
     User user;
     user.setApiVersion( "1.0" );
-    user.setLogin( "Tester" );
+    user.setLogin( login );
     user.setFullName( "Tester Full Name" );
     user.setGroup( "11po_1" );
 
@@ -46,7 +46,7 @@ IdTitleMap FakeDataManager::getProfessionsList(const qint64 limit)
     return professionsList;
 }
 
-IdTitleMap FakeDataManager::getLessonsList(const QString &profession_id, const qint64 limit)
+IdTitleMap FakeDataManager::getLessonsList(const QString &, const qint64 limit)
 {
     qint64 _limit;
     if( limit <= 0 )
@@ -61,7 +61,7 @@ IdTitleMap FakeDataManager::getLessonsList(const QString &profession_id, const q
     return lessonsList;
 }
 
-IdTitleMap FakeDataManager::getThemesList(const QString &lesson_id, const qint64 limit)
+IdTitleMap FakeDataManager::getThemesList(const QString &, const qint64 limit)
 {
     qint64 _limit;
     if( limit <= 0 )
@@ -76,7 +76,7 @@ IdTitleMap FakeDataManager::getThemesList(const QString &lesson_id, const qint64
     return themesList;
 }
 
-IdTitleMap FakeDataManager::getQuestionsList(const QString &theme_id, const qint64 limit)
+IdTitleMap FakeDataManager::getQuestionsList(const QString &, const qint64 limit)
 {
     qint64 _limit;
     if( limit <= 0 )
@@ -91,7 +91,7 @@ IdTitleMap FakeDataManager::getQuestionsList(const QString &theme_id, const qint
     return questionsList;
 }
 
-IdTitleMap FakeDataManager::getAnswersList(const QString &question_id, const qint64 limit)
+IdTitleMap FakeDataManager::getAnswersList(const QString &, const qint64 limit)
 {
     qint64 _limit;
     if( limit <= 0 )
@@ -163,32 +163,32 @@ Answer FakeDataManager::getAnswer(const QString &answer_id)
     return answer;
 }
 
-bool FakeDataManager::addProfession(const Profession &profession)
+bool FakeDataManager::addProfession(const Profession &)
 {
     return true;
 }
 
-bool FakeDataManager::addLesson(const QString &profession_id, const Lesson &lesson)
+bool FakeDataManager::addLesson(const QString &, const Lesson &)
 {
     return true;
 }
 
-bool FakeDataManager::addTheme(const QString &lesson_id, const Theme &theme)
+bool FakeDataManager::addTheme(const QString &, const Theme &)
 {
     return true;
 }
 
-bool FakeDataManager::addQuestion(const QString &theme_id, const Question &question)
+bool FakeDataManager::addQuestion(const QString &, const Question &)
 {
     return true;
 }
 
-bool FakeDataManager::addAnswer(const QString &question_id, const Answer &answer)
+bool FakeDataManager::addAnswer(const QString &, const Answer &)
 {
     return true;
 }
 
-bool FakeDataManager::addUser(const User &user)
+bool FakeDataManager::addUser(const User &)
 {
     return true;
 }

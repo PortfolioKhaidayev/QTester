@@ -39,9 +39,3 @@ void Answer::setValid(const bool valid)
 {
     _valid = valid;
 }
-
-
-void Answer::print()const
-{
-    qDebug() << "       Answer(Text: " << _value << ", Valid: "<< _valid <<")";
-}

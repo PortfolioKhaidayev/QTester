@@ -1,5 +1,90 @@
 #include "databasedatamanager.h"
 
+namespace Tables {
+    namespace Users {
+        const QString TABLE_NAME = "Users";
+
+        namespace Fields {
+            const QString USER_ID = "user_id";
+            const QString FIRSTNAME = "firstName";
+            const QString SECONDNAME = "secondName";
+            const QString LOGIN = "login";
+            const QString PASSWORD = "password";
+            const QString USERGROUP_ID = "userGroup_id";
+        }
+    }
+
+    namespace UserGroups {
+        const QString TABLE_NAME = "UserGropes";
+
+        namespace Fields {
+            const QString USERGROUP_ID = "userGrope_id";
+            const QString NAME = "name";
+            const QString TITLE = "title";
+        }
+    }
+
+    namespace Answers {
+        const QString TABLE_NAME = "Answers";
+
+        namespace Fields {
+            const QString ANSWER_ID = "answer_id";
+            const QString TEXT = "text";
+            const QString QUESTION_ID = "question_id";
+            const QString VALID = "valid";
+        }
+    }
+
+    namespace Questions {
+        const QString TABLE_NAME = "Questions";
+
+        namespace Fields {
+            const QString QUESTION_ID = "question_id";
+            const QString RECOMENDED_TIME = "recomended_time";
+            const QString TEXT = "text";
+            const QString QUESTION_TYPE = "QUESTION_TYPE";
+            const QString THEME_ID = "theme_id";
+            const QString CASE_SENS = "caseSens";
+            const QString STRIP_SPACE = "stripSpace";
+        }
+    }
+
+    namespace Themes {
+        const QString TABLE_NAME = "Themes";
+
+        namespace Fields {
+            const QString THEME_ID = "theme_id";
+            const QString NAME = "name";
+            const QString TITLE = "title";
+            const QString DIFFICULTY = "difficulty";
+            const QString LESSON_ID = "lesson_id";
+        }
+    }
+
+    namespace Lessons {
+        const QString TABLE_NAME = "Lessons";
+
+        namespace Fields {
+            const QString LESSON_ID = "lesson_id";
+            const QString NAME = "name";
+            const QString TITLE = "title";
+            const QString LANGUAGE = "localization";
+            const QString COURSE = "course";
+            const QString PROFESSION_ID = "profession_id";
+        }
+    }
+
+    namespace Professtions {
+        const QString TABLE_NAME = "Professions";
+
+        namespace Fields {
+            const QString PROFESSION_ID = "profession_id";
+            const QString NAME = "name";
+            const QString TITLE = "title";
+        }
+    }
+}
+
 DatabaseDataManager::DatabaseDataManager()
 {
     _db = SQLiteMgr::instance();
@@ -7,7 +92,29 @@ DatabaseDataManager::DatabaseDataManager()
 
 bool DatabaseDataManager::authentification(const QString &login, const QString &password)
 {
-    return _db->auth( login, password );
+    /// \todo возвращать id-шник пользователя
+    using namespace Tables::Users;
+
+    SqlWhere _where( Fields::LOGIN + "= '" + login + "'" );
+    _where.AND( Fields::PASSWORD + "= '" + password + "'" );
+
+    QSqlQuery query = _db->select( TABLE_NAME, QStringList( "COUNT(*) AS rCount" ), _where );
+
+    if( ! query.exec() ) {
+        qWarning() << "[SQLMgr::auth]\n"
+                   << "LastQuery: " << query.lastQuery()
+                   << "SqlError: " << query.lastError().text();
+        return false;
+    }
+
+    bool ok = false;
+    query.first();
+
+    if( ( query.value("rCount").toInt(&ok) >= 1 ) && ok ) {
+        return true;
+    }
+
+    return false;
 }
 
 User DatabaseDataManager::getUser(const QString &login, const QString &password)
@@ -282,37 +389,42 @@ Answer DatabaseDataManager::getAnswer(const QString &answer_id)
     return answer;
 }
 
-bool DatabaseDataManager::addProfession(const Profession &profession)
+bool DatabaseDataManager::addProfession(const Profession &)
 {
     /// \todo add profession
     return false;
+
+    QSqlQuery query;
+    query.prepare( "INSERT INTO :table_name VALUES()" );
+
+    query.bindValue( ":table_name", Tables::Professtions::TABLE_NAME );
 }
 
-bool DatabaseDataManager::addLesson(const QString &profession_id, const Lesson &lesson)
+bool DatabaseDataManager::addLesson(const QString &, const Lesson &)
 {
     /// \todo add lesson
     return false;
 }
 
-bool DatabaseDataManager::addTheme(const QString &lesson_id, const Theme &theme)
+bool DatabaseDataManager::addTheme(const QString &, const Theme &)
 {
     /// \todo add theme
     return false;
 }
 
-bool DatabaseDataManager::addQuestion(const QString &theme_id, const Question &question)
+bool DatabaseDataManager::addQuestion(const QString &, const Question &)
 {
     /// \todo add question
     return false;
 }
 
-bool DatabaseDataManager::addAnswer(const QString &question_id, const Answer &answer)
+bool DatabaseDataManager::addAnswer(const QString &, const Answer &)
 {
     /// \todo add answer
     return false;
 }
 
-bool DatabaseDataManager::addUser(const User &user)
+bool DatabaseDataManager::addUser(const User &)
 {
     /// \todo add user
     return false;

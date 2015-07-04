@@ -34,7 +34,7 @@ void RootWindow::connectSignals()
              this, SLOT( authAdmin( QString, QString, int ) ) );
 }
 
-void RootWindow::authAdmin(QString str, QString str2, int userGroup)
+void RootWindow::authAdmin(QString , QString , int userGroup)
 {
     qDebug() << "[RootWindow::authAdmin]";
     switch( userGroup )
@@ -105,7 +105,7 @@ RootWindow::~RootWindow()
     delete ui;
 }
 
-void RootWindow::on_ComboBox_Config_Profession_currentIndexChanged( int index )
+void RootWindow::on_ComboBox_Config_Profession_currentIndexChanged( int  )
 {
     //  QString profId = ui->ComboBox_Config_Profession->itemData(index).toString();
     QString profId = ui->ComboBox_Config_Profession->currentData().toString();
@@ -139,17 +139,17 @@ void RootWindow::setThemesList( IdTitleMap themeList )
     ui->ComboBox_Config_Theme->blockSignals( false );
 }
 
-void RootWindow::setMaxQuestionsCount( qint64 maxCount )
+void RootWindow::setMaxQuestionsCount( qint64  )
 {
     // ui->HorizontalSlider_Config_QuestionsCount->setMinimum(/*maxCount>5 ? 5: 0*/ 100);
 }
 
-void RootWindow::setProfsTree(IdTitleMap profTree, QTreeWidgetItem *selectedItem)
+void RootWindow::setProfsTree(IdTitleMap , QTreeWidgetItem *)
 {
 //    qDebug() << "[RootWindow::setProfsTree]";
 }
 
-void RootWindow::setQuestions( QVector<strQuestions> &questions )
+void RootWindow::setQuestions( QVector<strQuestions> & )
 {
 /*
  * 1. Вакханалия !!!
@@ -367,7 +367,7 @@ void RootWindow::createCheckAnswers( QVector<strAnswers> &answers, int questionN
     }
 }
 
-void RootWindow::createTextAnswers( QVector<strAnswers> &answers, int questionNum )
+void RootWindow::createTextAnswers( QVector<strAnswers> &, int questionNum )
 {
     Edit *edit;
 //    qDebug() << "new Edit";
@@ -381,7 +381,7 @@ void RootWindow::createTextAnswers( QVector<strAnswers> &answers, int questionNu
     _answersLay->addWidget( edit );
 }
 
-void RootWindow::on_ComboBox_Config_Lessons_currentIndexChanged( int index )
+void RootWindow::on_ComboBox_Config_Lessons_currentIndexChanged( int  )
 {
 //    qDebug() << ui->ComboBox_Config_Lessons->currentData().toInt();
     QString lessonsId = ui->ComboBox_Config_Lessons->currentData().toString();
@@ -391,7 +391,7 @@ void RootWindow::on_ComboBox_Config_Lessons_currentIndexChanged( int index )
              this, SLOT( setThemesList( IdTitleMap ) ) );
 }
 
-void RootWindow::on_ComboBox_Config_Theme_currentIndexChanged( int index )
+void RootWindow::on_ComboBox_Config_Theme_currentIndexChanged( int  )
 {
     // нужно запросить максимальное количество вопросов в базе данных
     QString themeId = ui->ComboBox_Config_Theme->currentData().toString();

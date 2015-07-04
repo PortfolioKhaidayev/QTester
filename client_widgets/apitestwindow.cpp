@@ -141,7 +141,7 @@ void ApiTestWindow::on_actionRemove_From_Completion_triggered()
     }
 }
 
-void ApiTestWindow::on_LineEdit_Request_customContextMenuRequested(const QPoint &pos)
+void ApiTestWindow::on_LineEdit_Request_customContextMenuRequested(const QPoint &)
 {
     emit ui->actionRemove_From_Completion->triggered();
 }

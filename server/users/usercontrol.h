@@ -2,7 +2,7 @@
 #ifndef USERCONTROL_H
 #define USERCONTROL_H
 
-#include <QMap>
+#include <QHash>
 #include "user.h"
 
 typedef QHash<QString, User> TokenUserHash;

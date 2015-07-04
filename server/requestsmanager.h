@@ -1,7 +1,6 @@
 #ifndef REQUESTSMANAGER_H
 #define REQUESTSMANAGER_H
 
-#include "db/sqlmgr.h"
 #include "jsonformat.h"
 #include "users/usercontrol.h"
 #include "tester/profession.h"

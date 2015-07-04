@@ -1,13 +1,9 @@
-#pragma once
 #ifndef THEM_H
 #define THEM_H
 
 #include <QString>
 #include <QVector>
 #include "question.h"
-#include "db/sqlmgr.h"
-
-typedef QMap<QString/*id*/, QString/*title*/> IdTitleMap;
 
 class Theme
 {
@@ -18,19 +14,14 @@ private:
     int 	_difficulty = 0;
     QVector <Question> _questions;
 
-    Question selectQuestion( const QSqlQuery &query ) const;
-
-    QVector<Answer> selectAnswers( const SQLMgr  &sqlManager,
-                                   const int      answersCount,
-                                   const QString &questionId ) const;
 public:
     Theme(){}
     Theme( const QString &Name );
 
-    QString getId()const;
-    QString getName()const;
-    QString getTitle()const;
-    int getDifficulty()const;
+    QString getId() const;
+    QString getName() const;
+    QString getTitle() const;
+    int     getDifficulty() const;
     QVector <Question> getQuestions() const;
 
     void setId( const QString &id );
@@ -43,29 +34,7 @@ public:
     void pushQuestion( const QString &text,
                        const QString &type,
                        const QVector <Answer> &answers );
-
-    bool selectFromDatabase( const SQLMgr &sqlManager,
-                             const qint64 questionsCount,
-                             const int answersCount );
-    static IdTitleMap getThemeList( const SQLMgr &sqlManager, const QString &lessonId );
-    void print()const;
 };
 
-namespace Tables
-{
-    namespace Themes
-    {
-        const QString TABLE_NAME = "Themes";
-
-        namespace Fields
-        {
-            const QString THEME_ID = "theme_id";
-            const QString NAME = "name";
-            const QString TITLE = "title";
-            const QString DIFFICULTY = "difficulty";
-            const QString LESSON_ID = "lesson_id";
-        }
-    }
-}
 #endif
 

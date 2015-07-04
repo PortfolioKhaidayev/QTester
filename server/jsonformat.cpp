@@ -87,64 +87,24 @@ QJsonObject JsonFormat::answerToJsonObject( const Answer &answer )
     return jAnswer;
 }
 
-
-QJsonObject JsonFormat::profListToJsonObj( const IdTitleMap &list )
-{
-//    qDebug() << "[JsonFormat::profListToJsonObj] "<< list;
-    return idTitleMapToJsonObj( list, Codes::Prof, reqLists::profList );
-}
-
-QJsonObject JsonFormat::lessonsListToJsonObj( const IdTitleMap &list )
-{
-    return idTitleMapToJsonObj( list, Codes::Lessons, reqLists::lessonsList );
-}
-
-QJsonObject JsonFormat::themesListToJsonObj( const IdTitleMap &list )
-{
-    return idTitleMapToJsonObj( list, Codes::Themes, reqLists::themesList );
-}
-
-QJsonObject JsonFormat::idTitleMapToJsonObj( const IdTitleMap &list, int code, const QString &listName )
-{
-    QJsonArray jArray
-        = mapListTojArray( list );
-    QJsonObject response{
-        { listName, jArray }
-    };
-    QJsonObject jList{
-        { "code", code },
-        { "response", response }
-    };
-
-    return jList;
-}
-
 QJsonArray JsonFormat::mapListTojArray( const IdTitleMap &map )
 {
     QJsonArray jArray;
-  //  QMapIterator<QString, QString> i( map );
-    int j = 0;
-   /* while( i.hasNext() )
-    {*/
-    for( auto it = map.begin(); it != map.end(); ++it )
-    {
-//        qDebug() << "[JsonFormat::mapListTojArray] #" << j << " key:" << it.key() << " value:" << it.value();
+
+    for( auto it = map.begin(); it != map.end(); ++it ) {
         jArray.append(
-            mapListItemtojObject( it.key(), it.value() ) );
-//        i.next();
-        j++;
+                    mapListItemtojObject( it.key(), it.value() ) );
     }
 
     return jArray;
 }
+
 QJsonObject JsonFormat::mapListItemtojObject( const QVariant &key, const QVariant &value )
 {
-//  qDebug() << "[JsonFormat::mapListItemtojObject] > key: " << key << " value: " << value;
-  QJsonObject obj
-  {
-    { "id", key.toInt() },
-    { "title", value.toString() }
-  };
+    QJsonObject obj {
+        { "id",    key.toInt() },
+        { "title", value.toString() }
+    };
 
     return obj;
 }

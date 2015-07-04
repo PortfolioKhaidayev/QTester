@@ -24,7 +24,7 @@ typedef QMap<QString, QString> DataMap;
 class SQLMgr ///SQL \brief Manadger the base class for work with Data Bases
 {
 protected:
-    static SQLMgr *_instance;
+    static SQLMgr *_instance; /// \todo is need?
     ConnectionMgr *_connection;
 
 
@@ -86,8 +86,6 @@ public:
                              const DataMap     &data) const;
 
     virtual qint64 size(     const QString     &tableName) = 0;
-
-    virtual bool auth(const QString &login, const QString &password)const;
 
 };
 #endif

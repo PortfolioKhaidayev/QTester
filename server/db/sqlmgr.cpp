@@ -66,8 +66,8 @@ bool SQLMgr::createTable( const QString     &tableName,
                           const DataMap     &data,
                           const QStringList &primary_keys_field,
                           const QStringList &foreign_keys_field,
-                          const QStringList &preferences_tables,
-                          const QStringList &preferences_fields ) const
+                          const QStringList &,
+                          const QStringList & ) const
 {
     QString sql = "CREATE TABLE IF NOT EXISTS " + tableName + " ( ";
 
@@ -260,9 +260,9 @@ QSqlQuery SQLMgr::insert( const QString &tableName, const DataMap &data ) const
     DataMap _data;
     if( ! data.isEmpty() )
     {
-        for( int i = 0; i < data.count(); ++i )
-        {
-            _data[data.keys().at( i )] = "'" + data.values().at( i ) + "'";
+        for (auto it = data.begin(); it != data.end(); ++it) {
+            /// \todo make to prepare
+            _data[ it.key() ] = "'" + it.value() + "'";
         }
         QString keys = QStringList( _data.keys() ).join( ", " );
         QString values = QStringList( _data.values() ).join( ", " );
@@ -271,37 +271,10 @@ QSqlQuery SQLMgr::insert( const QString &tableName, const DataMap &data ) const
 
         if( ! query.exec( sql ) )
         {
-            qDebug() << "Debug>  [SQLMgr::insert] " << sql; /// \todo TODO: debug outpud
-            qWarning() << "Warning> [SQLMgr::insert] " << query.lastError();
+            qDebug() << "[SQLMgr::insert]\n " << sql;
+            qWarning() << "[SQLMgr::insert]\n " << query.lastError();
         }
     }
 
     return query;
-}
-
-bool SQLMgr::auth( const QString &login, const QString &password ) const
-{
-    /// \todo возвращать id-шник пользователя
-    using namespace Tables::Users;
-
-    SqlWhere _where( Fields::LOGIN + "= '" + login + "'" );
-    _where.AND( Fields::PASSWORD + "= '" + password + "'" );
-
-    QSqlQuery query = select( TABLE_NAME, QStringList( "COUNT(*) AS rCount" ), _where );
-
-    if( ! query.exec() ) {
-        qWarning() << "[SQLMgr::auth]\n"
-                   << "LastQuery: " << query.lastQuery()
-                   << "SqlError: " << query.lastError().text();
-        return false;
-    }
-
-    bool ok = false;
-    query.first();
-
-    if( ( query.value("rCount").toInt(&ok) >= 1 ) && ok ) {
-        return true;
-    }
-
-    return false;
 }

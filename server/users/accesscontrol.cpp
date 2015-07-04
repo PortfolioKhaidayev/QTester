@@ -5,7 +5,7 @@ AccessControl::AccessControl()
 
 }
 
-bool AccessControl::isAccessTo(const User &user, const Permissions::Permission permission, const SQLMgr &db)
+bool AccessControl::isAccessTo(const User &, const Permissions::Permission , const SQLMgr &)
 {
 //    QString group = user.getGroup();
 //    SqlWhere where(Tables::UserGroups::Fields::NAME + " = " + group);

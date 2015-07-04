@@ -1,7 +1,6 @@
 #ifndef USER_H
 #define USER_H
 
-#include "db/sqlmgr.h"
 #include <QString>
 #include <QCryptographicHash>
 
@@ -15,10 +14,7 @@ private:
 
 
 public:
-    User()
-    {
-    }
-    User( const QString &login, const QString &password, const SQLMgr &db, const QString & = "1.0" );
+    User(){}
 
     QString getLogin() const;
     QString getApiVersion() const;
@@ -31,34 +27,4 @@ public:
     void setGroup( const QString &group );
 };
 
-namespace Tables
-{
-    namespace Users
-    {
-        const QString TABLE_NAME = "Users";
-
-        namespace Fields
-        {
-            const QString USER_ID = "user_id";
-            const QString FIRSTNAME = "firstName";
-            const QString SECONDNAME = "secondName";
-            const QString LOGIN = "login";
-            const QString PASSWORD = "password";
-            const QString USERGROUP_ID = "userGroup_id";
-        }
-    }
-
-    namespace UserGroups
-    {
-        const QString TABLE_NAME = "UserGropes";
-
-        namespace Fields
-        {
-            const QString USERGROUP_ID = "userGrope_id";
-            const QString NAME = "name";
-            const QString TITLE = "title";
-        }
-    }
-
-}
 #endif
